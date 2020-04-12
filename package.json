@@ -2,11 +2,11 @@
   "name": "wecare-back",
   "version": "1.0.0",
   "description": "wecare backend",
-  "main": "built/src/server.js",
+  "main": "built/server.js",
   "scripts": {
     "clean": "rm -rf ./node_modules && rm -rf ./built",
-    "start__": "tsc && node built/app.js",
-    "start": "tsc && node built/src/server.js",
+    "start": "tsc && node built/server.js",
+    "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
