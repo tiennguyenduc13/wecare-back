@@ -8,8 +8,8 @@ const lodash_1 = __importDefault(require("lodash"));
 const PositionMap_1 = __importDefault(require("../models/PositionMap"));
 const positionMapRoutes = express_1.default.Router();
 // Defined get data(index or listing) route
-positionMapRoutes.route("/").get(function (req, res) {
-    PositionMap_1.default.find(function (err, positionMapes) {
+positionMapRoutes.route("/").get((req, res) => {
+    PositionMap_1.default.find((err, positionMapes) => {
         if (err) {
             console.log(err);
         }
@@ -18,7 +18,7 @@ positionMapRoutes.route("/").get(function (req, res) {
         }
     });
 });
-positionMapRoutes.route("/updatePosition/:userId").post(function (req, res) {
+positionMapRoutes.route("/updatePosition/:userId").post((req, res) => {
     const userId = req.params.userId;
     const position = { lat: req.body.lat, lng: req.body.lng };
     PositionMap_1.default.findOne({ userId }).then((positionMap) => {
@@ -55,7 +55,7 @@ positionMapRoutes.route("/updatePosition/:userId").post(function (req, res) {
         }
     });
 });
-positionMapRoutes.route("/list").get(function (req, res) {
+positionMapRoutes.route("/list").get((req, res) => {
     PositionMap_1.default.find({}, (err, positionMaps) => {
         if (err) {
             console.log(err);
@@ -65,9 +65,7 @@ positionMapRoutes.route("/list").get(function (req, res) {
         }
     });
 });
-positionMapRoutes
-    .route("/updateHealthSignals/:userId")
-    .post(function (req, res) {
+positionMapRoutes.route("/updateHealthSignals/:userId").post((req, res) => {
     const userId = req.params.userId;
     const healthSignals = req.body;
     PositionMap_1.default.findOne({ userId }).then((positionMap) => {
@@ -102,7 +100,7 @@ positionMapRoutes
         }
     });
 });
-positionMapRoutes.route("/update/:userId").post(function (req, res) {
+positionMapRoutes.route("/update/:userId").post((req, res) => {
     const userIdToUpdate = req.params.userId;
     const positionMapToUpdate = new PositionMap_1.default(req.body);
     PositionMap_1.default.findOne({ userId: userIdToUpdate }).then((positionMap) => {
@@ -134,8 +132,8 @@ positionMapRoutes.route("/update/:userId").post(function (req, res) {
     });
 });
 // Defined delete | remove | destroy route
-positionMapRoutes.route("/delete/:id").get(function (req, res) {
-    PositionMap_1.default.findByIdAndRemove({ _id: req.params.id }, function (err, positionMap) {
+positionMapRoutes.route("/delete/:id").get((req, res) => {
+    PositionMap_1.default.findByIdAndRemove({ _id: req.params.id }, (err, positionMap) => {
         if (err) {
             res.json(err);
         }

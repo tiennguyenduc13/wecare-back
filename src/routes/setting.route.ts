@@ -4,7 +4,7 @@ import Setting from "../models/Setting";
 
 const settingRoutes = express.Router();
 
-settingRoutes.route("/updateSetting/:userId").post(function(req, res) {
+settingRoutes.route("/updateSetting/:userId").post((req, res) => {
   const userId = req.params.userId;
   const settingParam = new Setting({
     userId,
@@ -45,7 +45,7 @@ settingRoutes.route("/updateSetting/:userId").post(function(req, res) {
   });
 });
 
-settingRoutes.route("/:userId").get(function(req, res) {
+settingRoutes.route("/:userId").get((req, res) => {
   const userId = req.params.userId;
   console.log("load setting ", userId);
   Setting.findOne({ userId }).then((setting) => {

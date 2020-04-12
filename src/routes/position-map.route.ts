@@ -5,8 +5,8 @@ import PositionMap from "../models/PositionMap";
 const positionMapRoutes = express.Router();
 
 // Defined get data(index or listing) route
-positionMapRoutes.route("/").get(function(req, res) {
-  PositionMap.find(function(err, positionMapes) {
+positionMapRoutes.route("/").get((req, res) => {
+  PositionMap.find((err, positionMapes) => {
     if (err) {
       console.log(err);
     } else {
@@ -15,7 +15,7 @@ positionMapRoutes.route("/").get(function(req, res) {
   });
 });
 
-positionMapRoutes.route("/updatePosition/:userId").post(function(req, res) {
+positionMapRoutes.route("/updatePosition/:userId").post((req, res) => {
   const userId = req.params.userId;
   const position = { lat: req.body.lat, lng: req.body.lng };
   PositionMap.findOne({ userId }).then((positionMap) => {
@@ -52,7 +52,7 @@ positionMapRoutes.route("/updatePosition/:userId").post(function(req, res) {
     }
   });
 });
-positionMapRoutes.route("/list").get(function(req, res) {
+positionMapRoutes.route("/list").get((req, res) => {
   PositionMap.find({}, (err, positionMaps) => {
     if (err) {
       console.log(err);
@@ -61,45 +61,43 @@ positionMapRoutes.route("/list").get(function(req, res) {
     }
   });
 });
-positionMapRoutes
-  .route("/updateHealthSignals/:userId")
-  .post(function(req, res) {
-    const userId = req.params.userId;
-    const healthSignals = req.body;
-    PositionMap.findOne({ userId }).then((positionMap) => {
-      if (positionMap) {
-        positionMap.healthSignals = healthSignals;
-        positionMap.eventDate = new Date();
-        // update
-        positionMap
-          .save()
-          .then((resData) => {
-            res.status(200).json(resData);
-          })
-          .catch((err) => {
-            res.status(400).send("unable to save to database");
-          });
-      } else {
-        // add new
-        const newPositionMap = new PositionMap({
-          userId,
-          healthSignals,
-          eventDate: new Date(),
+positionMapRoutes.route("/updateHealthSignals/:userId").post((req, res) => {
+  const userId = req.params.userId;
+  const healthSignals = req.body;
+  PositionMap.findOne({ userId }).then((positionMap) => {
+    if (positionMap) {
+      positionMap.healthSignals = healthSignals;
+      positionMap.eventDate = new Date();
+      // update
+      positionMap
+        .save()
+        .then((resData) => {
+          res.status(200).json(resData);
+        })
+        .catch((err) => {
+          res.status(400).send("unable to save to database");
         });
+    } else {
+      // add new
+      const newPositionMap = new PositionMap({
+        userId,
+        healthSignals,
+        eventDate: new Date(),
+      });
 
-        newPositionMap
-          .save()
-          .then((positionMap) => {
-            res.status(200).json({ positionMap });
-          })
-          .catch((err) => {
-            res.status(400).send("unable to save to database");
-          });
-      }
-    });
+      newPositionMap
+        .save()
+        .then((positionMap) => {
+          res.status(200).json({ positionMap });
+        })
+        .catch((err) => {
+          res.status(400).send("unable to save to database");
+        });
+    }
   });
+});
 
-positionMapRoutes.route("/update/:userId").post(function(req, res) {
+positionMapRoutes.route("/update/:userId").post((req, res) => {
   const userIdToUpdate = req.params.userId;
   const positionMapToUpdate = new PositionMap(req.body);
   PositionMap.findOne({ userId: userIdToUpdate }).then((positionMap) => {
@@ -131,11 +129,8 @@ positionMapRoutes.route("/update/:userId").post(function(req, res) {
 });
 
 // Defined delete | remove | destroy route
-positionMapRoutes.route("/delete/:id").get(function(req, res) {
-  PositionMap.findByIdAndRemove({ _id: req.params.id }, function(
-    err,
-    positionMap,
-  ) {
+positionMapRoutes.route("/delete/:id").get((req, res) => {
+  PositionMap.findByIdAndRemove({ _id: req.params.id }, (err, positionMap) => {
     if (err) {
       res.json(err);
     } else {

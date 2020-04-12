@@ -5,7 +5,7 @@ import HealthChange from "../models/HealthChange";
 const healthChangeRoutes = express.Router();
 
 // Defined store route
-healthChangeRoutes.route("/add").post(function(req, res) {
+healthChangeRoutes.route("/add").post((req, res) => {
   const healthChange = new HealthChange(req.body);
   console.log("Adding healthChange");
   healthChange
@@ -18,7 +18,7 @@ healthChangeRoutes.route("/add").post(function(req, res) {
     });
 });
 
-healthChangeRoutes.route("/listByUserId/:userId").get(function(req, res) {
+healthChangeRoutes.route("/listByUserId/:userId").get((req, res) => {
   const userId = req.params.userId;
   console.log("Get list healthChange: ", userId);
   HealthChange.find({ userId }, (err, healthChanges) => {
@@ -30,7 +30,7 @@ healthChangeRoutes.route("/listByUserId/:userId").get(function(req, res) {
   });
 });
 
-healthChangeRoutes.route("/latest/:userId").get(function(req, res) {
+healthChangeRoutes.route("/latest/:userId").get((req, res) => {
   const userId = req.params.userId;
   HealthChange.find({ userId })
     .sort({ eventDate: -1 })
@@ -44,9 +44,9 @@ healthChangeRoutes.route("/latest/:userId").get(function(req, res) {
     });
 });
 
-healthChangeRoutes.route("/update/:id").post(function(req, res) {
+healthChangeRoutes.route("/update/:id").post((req, res) => {
   const id = req.params.id;
-  HealthChange.findById(id, function(err, next, healthChange) {
+  HealthChange.findById(id, (err, next, healthChange) => {
     if (!healthChange) {
       return next(new Error("Could not load HealthChange"));
     } else {
@@ -64,21 +64,21 @@ healthChangeRoutes.route("/update/:id").post(function(req, res) {
   });
 });
 
-healthChangeRoutes.route("/delete/:id").post(function(req, res) {
+healthChangeRoutes.route("/delete/:id").post((req, res) => {
   const healthChangeId = req.params.id;
   console.log("Delete ", healthChangeId);
 
-  HealthChange.findByIdAndRemove({ _id: healthChangeId }, function(
-    err,
-    healthChange,
-  ) {
-    console.log("Delete found ", healthChange);
-    if (err) {
-      res.json(err);
-    } else {
-      console.log("Delete Ok");
-      res.json(healthChangeId);
-    }
-  });
+  HealthChange.findByIdAndRemove(
+    { _id: healthChangeId },
+    (err, healthChange) => {
+      console.log("Delete found ", healthChange);
+      if (err) {
+        res.json(err);
+      } else {
+        console.log("Delete Ok");
+        res.json(healthChangeId);
+      }
+    },
+  );
 });
 export default healthChangeRoutes;

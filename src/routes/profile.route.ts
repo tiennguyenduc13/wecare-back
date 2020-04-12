@@ -4,7 +4,7 @@ import Profile from "../models/Profile";
 
 const profileRoutes = express.Router();
 
-profileRoutes.route("/updateProfile/:userId").post(function(req, res) {
+profileRoutes.route("/updateProfile/:userId").post((req, res) => {
   const userId = req.params.userId;
   const profileParam = new Profile({
     userId,
@@ -57,7 +57,7 @@ profileRoutes.route("/updateProfile/:userId").post(function(req, res) {
   });
 });
 
-profileRoutes.route("/:userId").get(function(req, res) {
+profileRoutes.route("/:userId").get((req, res) => {
   const userId = req.params.userId;
   console.log("load profile ", userId);
   Profile.findOne({ userId }).then((profile) => {

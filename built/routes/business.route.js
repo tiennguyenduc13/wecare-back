@@ -6,10 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const Business_1 = __importDefault(require("../models/Business"));
 const businessRoutes = express_1.default.Router();
-// Require Business model in our routes module
-// let Business = require("../models/Business");
-// Defined store route
-businessRoutes.route("/add").post(function (req, res) {
+businessRoutes.route("/add").post((req, res) => {
     console.log("ttt req.body", req.body);
     const business = new Business_1.default(req.body);
     business
@@ -22,8 +19,8 @@ businessRoutes.route("/add").post(function (req, res) {
     });
 });
 // Defined get data(index or listing) route
-businessRoutes.route("/").get(function (req, res) {
-    Business_1.default.find(function (err, businesses) {
+businessRoutes.route("/").get((req, res) => {
+    Business_1.default.find((err, businesses) => {
         if (err) {
             console.log(err);
         }
@@ -33,15 +30,15 @@ businessRoutes.route("/").get(function (req, res) {
     });
 });
 // Defined edit route
-businessRoutes.route("/edit/:id").get(function (req, res) {
+businessRoutes.route("/edit/:id").get((req, res) => {
     const id = req.params.id;
-    Business_1.default.findById(id, function (err, business) {
+    Business_1.default.findById(id, (err, business) => {
         res.json(business);
     });
 });
 //  Defined update route
-businessRoutes.route("/update/:id").post(function (req, res) {
-    Business_1.default.findById(req.params.id, function (err, next, business) {
+businessRoutes.route("/update/:id").post((req, res) => {
+    Business_1.default.findById(req.params.id, (err, next, business) => {
         if (!business) {
             return next(new Error("Could not load Document"));
         }
@@ -61,8 +58,8 @@ businessRoutes.route("/update/:id").post(function (req, res) {
     });
 });
 // Defined delete | remove | destroy route
-businessRoutes.route("/delete/:id").get(function (req, res) {
-    Business_1.default.findByIdAndRemove({ _id: req.params.id }, function (err, business) {
+businessRoutes.route("/delete/:id").get((req, res) => {
+    Business_1.default.findByIdAndRemove({ _id: req.params.id }, (err, business) => {
         if (err) {
             res.json(err);
         }

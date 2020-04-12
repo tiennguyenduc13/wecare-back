@@ -8,7 +8,6 @@ interface IOrg extends mongoose.Document {
   members: string[];
 }
 
-// Define collection and schema for Org
 const OrgSchema = new Schema(
   {
     creatorId: {

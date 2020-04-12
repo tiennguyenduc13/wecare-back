@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const lodash_1 = __importDefault(require("lodash"));
 const Profile_1 = __importDefault(require("../models/Profile"));
 const profileRoutes = express_1.default.Router();
-profileRoutes.route("/updateProfile/:userId").post(function (req, res) {
+profileRoutes.route("/updateProfile/:userId").post((req, res) => {
     const userId = req.params.userId;
     const profileParam = new Profile_1.default({
         userId,
@@ -59,7 +59,7 @@ profileRoutes.route("/updateProfile/:userId").post(function (req, res) {
         }
     });
 });
-profileRoutes.route("/:userId").get(function (req, res) {
+profileRoutes.route("/:userId").get((req, res) => {
     const userId = req.params.userId;
     console.log("load profile ", userId);
     Profile_1.default.findOne({ userId }).then((profile) => {

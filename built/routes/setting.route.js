@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const lodash_1 = __importDefault(require("lodash"));
 const Setting_1 = __importDefault(require("../models/Setting"));
 const settingRoutes = express_1.default.Router();
-settingRoutes.route("/updateSetting/:userId").post(function (req, res) {
+settingRoutes.route("/updateSetting/:userId").post((req, res) => {
     const userId = req.params.userId;
     const settingParam = new Setting_1.default({
         userId,
@@ -47,7 +47,7 @@ settingRoutes.route("/updateSetting/:userId").post(function (req, res) {
         }
     });
 });
-settingRoutes.route("/:userId").get(function (req, res) {
+settingRoutes.route("/:userId").get((req, res) => {
     const userId = req.params.userId;
     console.log("load setting ", userId);
     Setting_1.default.findOne({ userId }).then((setting) => {

@@ -4,8 +4,8 @@ import Message from "../models/Message";
 
 const messageRoutes = express.Router();
 
-messageRoutes.route("/add").post(function (req, res) {
-  let message = new Message(req.body);
+messageRoutes.route("/add").post((req, res) => {
+  const message = new Message(req.body);
   console.log("Adding message", message);
   message
     .save()
@@ -19,10 +19,10 @@ messageRoutes.route("/add").post(function (req, res) {
     });
 });
 
-messageRoutes.route("/listByOrgId/:orgId").get(function (req, res) {
+messageRoutes.route("/listByOrgId/:orgId").get((req, res) => {
   const orgId = req.params.orgId;
   console.log("Get list message: ", orgId);
-  Message.find({ orgId: orgId }, (err, messages) => {
+  Message.find({ orgId }, (err, messages) => {
     if (err) {
       console.log(err);
     } else {

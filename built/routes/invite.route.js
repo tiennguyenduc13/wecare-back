@@ -8,7 +8,7 @@ const Invite_1 = __importDefault(require("../models/Invite"));
 const Profile_1 = __importDefault(require("../models/Profile"));
 const org_function_1 = __importDefault(require("./org.function"));
 const inviteRoutes = express_1.default.Router();
-inviteRoutes.route("/add").post(function (req, res) {
+inviteRoutes.route("/add").post((req, res) => {
     const invite = new Invite_1.default(req.body);
     console.log("Adding invite", invite);
     // find inviteeId by inviteeEmail
@@ -33,7 +33,7 @@ inviteRoutes.route("/add").post(function (req, res) {
         }
     });
 });
-inviteRoutes.route("/listByInviterId/:inviterId").get(function (req, res) {
+inviteRoutes.route("/listByInviterId/:inviterId").get((req, res) => {
     const inviterId = req.params.inviterId;
     console.log("Get list invite inviterId: ", inviterId);
     Invite_1.default.find({ inviterId }, (err, invites) => {
@@ -45,7 +45,7 @@ inviteRoutes.route("/listByInviterId/:inviterId").get(function (req, res) {
         }
     });
 });
-inviteRoutes.route("/listByInviteeId/:inviteeId").get(function (req, res) {
+inviteRoutes.route("/listByInviteeId/:inviteeId").get((req, res) => {
     const inviteeId = req.params.inviteeId;
     console.log("Get list invites by inviteeId :", inviteeId);
     Invite_1.default.find({ inviteeId }, (err, invites) => {
@@ -58,7 +58,7 @@ inviteRoutes.route("/listByInviteeId/:inviteeId").get(function (req, res) {
         }
     });
 });
-inviteRoutes.route("/listByInviterId/:inviterId").get(function (req, res) {
+inviteRoutes.route("/listByInviterId/:inviterId").get((req, res) => {
     const inviterId = req.params.inviterId;
     console.log("Get list invites by inviterId :", inviterId);
     Invite_1.default.find({ inviterId }, (err, invites) => {
@@ -71,9 +71,9 @@ inviteRoutes.route("/listByInviterId/:inviterId").get(function (req, res) {
         }
     });
 });
-inviteRoutes.route("/update/:id").post(function (req, res) {
+inviteRoutes.route("/update/:id").post((req, res) => {
     const id = req.params.id;
-    Invite_1.default.findById(id, function (err, next, invite) {
+    Invite_1.default.findById(id, (err, next, invite) => {
         if (!invite) {
             return next(new Error("Could not load Invite"));
         }
@@ -90,10 +90,10 @@ inviteRoutes.route("/update/:id").post(function (req, res) {
         }
     });
 });
-inviteRoutes.route("/acceptInvite/:inviteId").post(function (req, res) {
+inviteRoutes.route("/acceptInvite/:inviteId").post((req, res) => {
     const inviteId = req.params.inviteId;
     console.log("start acceptInvite inviteId ", inviteId);
-    Invite_1.default.findById(inviteId, function (err, invite) {
+    Invite_1.default.findById(inviteId, (err, invite) => {
         if (err) {
             console.log(err);
             res.status(404).send("Unable to updateStatus");
@@ -119,7 +119,7 @@ inviteRoutes.route("/acceptInvite/:inviteId").post(function (req, res) {
         }
     });
 });
-inviteRoutes.route("/:inviteId").get(function (req, res) {
+inviteRoutes.route("/:inviteId").get((req, res) => {
     const inviteId = req.params.inviteId;
     console.log("load inviteId ", inviteId);
     Invite_1.default.findOne({ _id: inviteId }).then((invite) => {

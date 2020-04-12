@@ -2,7 +2,7 @@ import Org from "../models/Org";
 
 export default function addMemberToOrg(req, res, memberId, orgId) {
   console.log("start addMemberToOrg: ", memberId, orgId);
-  Org.findById(orgId, function(err, org) {
+  Org.findById(orgId, (err, org) => {
     if (err) {
       console.log("Error ", err);
       res.status(404).send("Unable to addMember");

@@ -18,7 +18,7 @@ const Org_1 = __importDefault(require("../models/Org"));
 const Profile_1 = __importDefault(require("../models/Profile"));
 const org_function_1 = __importDefault(require("./org.function"));
 const orgRoutes = express_1.default.Router();
-orgRoutes.route("/add").post(function (req, res) {
+orgRoutes.route("/add").post((req, res) => {
     const org = new Org_1.default(req.body);
     const creatorId = org.creatorId;
     if (!lodash_1.default.isEmpty(creatorId)) {
@@ -40,13 +40,13 @@ orgRoutes.route("/add").post(function (req, res) {
         res.status(200).json({});
     }
 });
-orgRoutes.route("/addMember/:orgId/:memberId").post(function (req, res) {
+orgRoutes.route("/addMember/:orgId/:memberId").post((req, res) => {
     const orgId = req.params.orgId;
     const memberId = req.params.memberId;
     console.log("Adding member to org", memberId, orgId);
     org_function_1.default(req, res, memberId, orgId);
 });
-orgRoutes.route("/listByCreator/:creatorId").get(function (req, res) {
+orgRoutes.route("/listByCreator/:creatorId").get((req, res) => {
     const creatorId = req.params.creatorId;
     let filter = {};
     if (creatorId) {
@@ -62,7 +62,7 @@ orgRoutes.route("/listByCreator/:creatorId").get(function (req, res) {
         }
     });
 });
-orgRoutes.route("/:orgId").get(function (req, res) {
+orgRoutes.route("/:orgId").get((req, res) => {
     const orgId = req.params.orgId;
     if (orgId) {
         console.log("Find org : ", orgId);
@@ -80,7 +80,7 @@ orgRoutes.route("/:orgId").get(function (req, res) {
         res.json({});
     }
 });
-orgRoutes.route("/listByMember/:memberId").get(function (req, res) {
+orgRoutes.route("/listByMember/:memberId").get((req, res) => {
     const memberId = req.params.memberId;
     let filter = {};
     if (memberId) {
@@ -97,7 +97,7 @@ orgRoutes.route("/listByMember/:memberId").get(function (req, res) {
         }
     });
 });
-orgRoutes.route("/listExceptMember/:memberId").get(function (req, res) {
+orgRoutes.route("/listExceptMember/:memberId").get((req, res) => {
     const memberId = req.params.memberId;
     let filter = {};
     if (memberId) {
@@ -114,7 +114,7 @@ orgRoutes.route("/listExceptMember/:memberId").get(function (req, res) {
         }
     });
 });
-orgRoutes.route("/members/:orgId/:memberId").get(function (req, res) {
+orgRoutes.route("/members/:orgId/:memberId").get((req, res) => {
     const orgId = req.params.orgId;
     const memberId = req.params.memberId;
     const filter = {
@@ -122,7 +122,7 @@ orgRoutes.route("/members/:orgId/:memberId").get(function (req, res) {
         members: memberId,
     };
     console.log("Get list members filter: ", filter);
-    Org_1.default.findOne(filter, (err, org) => __awaiter(this, void 0, void 0, function* () {
+    Org_1.default.findOne(filter, (err, org) => __awaiter(void 0, void 0, void 0, function* () {
         if (err) {
             console.log(err);
             res.json({});
@@ -157,9 +157,7 @@ orgRoutes.route("/members/:orgId/:memberId").get(function (req, res) {
         }
     }));
 });
-orgRoutes
-    .route("/deleteByCreatorId/:orgId/:creatorId")
-    .post(function (req, res) {
+orgRoutes.route("/deleteByCreatorId/:orgId/:creatorId").post((req, res) => {
     const orgId = req.params.orgId;
     const creatorId = req.params.creatorId;
     console.log("Delete ", orgId, creatorId);

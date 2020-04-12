@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const HealthChange_1 = __importDefault(require("../models/HealthChange"));
 const healthChangeRoutes = express_1.default.Router();
 // Defined store route
-healthChangeRoutes.route("/add").post(function (req, res) {
+healthChangeRoutes.route("/add").post((req, res) => {
     const healthChange = new HealthChange_1.default(req.body);
     console.log("Adding healthChange");
     healthChange
@@ -19,7 +19,7 @@ healthChangeRoutes.route("/add").post(function (req, res) {
         res.status(400).send("unable to save to database");
     });
 });
-healthChangeRoutes.route("/listByUserId/:userId").get(function (req, res) {
+healthChangeRoutes.route("/listByUserId/:userId").get((req, res) => {
     const userId = req.params.userId;
     console.log("Get list healthChange: ", userId);
     HealthChange_1.default.find({ userId }, (err, healthChanges) => {
@@ -31,7 +31,7 @@ healthChangeRoutes.route("/listByUserId/:userId").get(function (req, res) {
         }
     });
 });
-healthChangeRoutes.route("/latest/:userId").get(function (req, res) {
+healthChangeRoutes.route("/latest/:userId").get((req, res) => {
     const userId = req.params.userId;
     HealthChange_1.default.find({ userId })
         .sort({ eventDate: -1 })
@@ -45,9 +45,9 @@ healthChangeRoutes.route("/latest/:userId").get(function (req, res) {
         }
     });
 });
-healthChangeRoutes.route("/update/:id").post(function (req, res) {
+healthChangeRoutes.route("/update/:id").post((req, res) => {
     const id = req.params.id;
-    HealthChange_1.default.findById(id, function (err, next, healthChange) {
+    HealthChange_1.default.findById(id, (err, next, healthChange) => {
         if (!healthChange) {
             return next(new Error("Could not load HealthChange"));
         }
@@ -64,10 +64,10 @@ healthChangeRoutes.route("/update/:id").post(function (req, res) {
         }
     });
 });
-healthChangeRoutes.route("/delete/:id").post(function (req, res) {
+healthChangeRoutes.route("/delete/:id").post((req, res) => {
     const healthChangeId = req.params.id;
     console.log("Delete ", healthChangeId);
-    HealthChange_1.default.findByIdAndRemove({ _id: healthChangeId }, function (err, healthChange) {
+    HealthChange_1.default.findByIdAndRemove({ _id: healthChangeId }, (err, healthChange) => {
         console.log("Delete found ", healthChange);
         if (err) {
             res.json(err);

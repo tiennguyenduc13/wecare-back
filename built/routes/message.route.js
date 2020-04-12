@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const Message_1 = __importDefault(require("../models/Message"));
 const messageRoutes = express_1.default.Router();
-messageRoutes.route("/add").post(function (req, res) {
-    let message = new Message_1.default(req.body);
+messageRoutes.route("/add").post((req, res) => {
+    const message = new Message_1.default(req.body);
     console.log("Adding message", message);
     message
         .save()
@@ -20,10 +20,10 @@ messageRoutes.route("/add").post(function (req, res) {
         res.status(400).send("unable to save to database");
     });
 });
-messageRoutes.route("/listByOrgId/:orgId").get(function (req, res) {
+messageRoutes.route("/listByOrgId/:orgId").get((req, res) => {
     const orgId = req.params.orgId;
     console.log("Get list message: ", orgId);
-    Message_1.default.find({ orgId: orgId }, (err, messages) => {
+    Message_1.default.find({ orgId }, (err, messages) => {
         if (err) {
             console.log(err);
         }
