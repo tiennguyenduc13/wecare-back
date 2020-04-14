@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-interface ISetting extends mongoose.Document {
+export interface ISetting extends mongoose.Document {
   userId: string;
   eventDate: Date;
   alertDistance: {
@@ -33,5 +33,5 @@ const SettingSchema = new Schema(
   },
 );
 
-const Setting = mongoose.model<ISetting>("Setting", SettingSchema);
+export const Setting = mongoose.model<ISetting>("Setting", SettingSchema);
 export default Setting;

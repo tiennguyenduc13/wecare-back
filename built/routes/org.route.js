@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const lodash_1 = __importDefault(require("lodash"));
+const HealthChange_1 = __importDefault(require("../models/HealthChange"));
 const Org_1 = __importDefault(require("../models/Org"));
 const Profile_1 = __importDefault(require("../models/Profile"));
 const org_function_1 = __importDefault(require("./org.function"));
@@ -114,7 +115,7 @@ orgRoutes.route("/listExceptMember/:memberId").get((req, res) => {
         }
     });
 });
-orgRoutes.route("/members/:orgId/:memberId").get((req, res) => {
+orgRoutes.route("/members/:orgId/:memberId").get((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const orgId = req.params.orgId;
     const memberId = req.params.memberId;
     const filter = {
@@ -122,41 +123,65 @@ orgRoutes.route("/members/:orgId/:memberId").get((req, res) => {
         members: memberId,
     };
     console.log("Get list members filter: ", filter);
-    Org_1.default.findOne(filter, (err, org) => __awaiter(void 0, void 0, void 0, function* () {
+    const org = yield Org_1.default.findOne(filter, (err, org) => {
         if (err) {
             console.log(err);
-            res.json({});
         }
         else {
             console.log("Found org", org);
-            try {
-                const profilesPromises = lodash_1.default.map(org.members, (memberId) => {
-                    return Profile_1.default.findOne({ userId: memberId }, (err, profile) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        else {
-                            console.log("Found profile", profile);
-                            return profile;
-                        }
-                    });
-                });
-                Promise.all(profilesPromises)
-                    .then((profiles) => {
-                    console.log("Found profiles", profiles);
-                    res.json(profiles);
-                })
-                    .catch((err) => {
-                    console.log("Error getting members promises ", err);
-                    res.json({});
-                });
-            }
-            catch (err) {
-                console.log("Error getting members ", err);
-            }
+            return org;
         }
+    });
+    console.log("ttt111 org", org);
+    const profilesPromises = yield lodash_1.default.map(org.members, (memberId) => __awaiter(void 0, void 0, void 0, function* () {
+        return yield Profile_1.default.findOne({
+            userId: memberId,
+        }, (err, profile) => {
+            if (err) {
+                console.log(err);
+                return {};
+            }
+            else {
+                console.log("Found profile", profile);
+                return profile;
+            }
+        });
     }));
-});
+    console.log("ttt11122 profiles", profilesPromises);
+    const profiles = yield Promise.all(profilesPromises);
+    console.log("ttt11122333 profiles", profiles);
+    const cloneObjs = [];
+    const promises = yield lodash_1.default.map(profiles, (profile) => __awaiter(void 0, void 0, void 0, function* () {
+        const healthChanges = yield HealthChange_1.default.find({
+            userId: profile.userId,
+        })
+            .sort({
+            eventDate: -1,
+        })
+            .limit(1);
+        const healthSignals = healthChanges && healthChanges.length
+            ? healthChanges[0].healthSignals
+            : [];
+        console.log("ttt444 healthSignals--------", healthSignals);
+        const cloneObj = {
+            userId: profile.userId,
+            name: profile.name,
+            email: profile.email,
+            healthSignals,
+        };
+        console.log("ttt444555 cloneObj--------", cloneObj);
+        cloneObjs.push(cloneObj);
+        return cloneObj;
+    }));
+    console.log("ttt666 promises--------", promises);
+    const members = yield Promise.all(promises);
+    console.log("ttt666777 members--------", members);
+    res.json(members);
+    //   Promise.all(promises).then((members) => {
+    //     console.log("ttt666777 members--------", members);
+    //     res.json(members);
+    //   });
+}));
 orgRoutes.route("/deleteByCreatorId/:orgId/:creatorId").post((req, res) => {
     const orgId = req.params.orgId;
     const creatorId = req.params.creatorId;

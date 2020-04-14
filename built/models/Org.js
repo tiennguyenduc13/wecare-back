@@ -24,6 +24,6 @@ const OrgSchema = new Schema({
 }, {
     collection: "org",
 });
-const Org = mongoose_1.default.model("Org", OrgSchema);
-exports.default = Org;
+exports.Org = mongoose_1.default.model("Org", OrgSchema);
+exports.default = exports.Org;
 //# sourceMappingURL=Org.js.map

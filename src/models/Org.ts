@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-interface IOrg extends mongoose.Document {
+export interface IOrg extends mongoose.Document {
   creatorId: string;
   name: string;
   eventDate: Date;
@@ -31,5 +31,5 @@ const OrgSchema = new Schema(
   },
 );
 
-const Org = mongoose.model<IOrg>("Org", OrgSchema);
+export const Org = mongoose.model<IOrg>("Org", OrgSchema);
 export default Org;

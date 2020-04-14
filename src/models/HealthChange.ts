@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-interface IHealthChange extends mongoose.Document {
+export interface IHealthChange extends mongoose.Document {
   userId: string;
   eventDate: Date;
   healthSignals: string[];
@@ -23,8 +23,7 @@ const HealthChangeSchema = new Schema(
   },
 );
 
-// const Business = mongoose.model<IBusiness>("Business", BusinessSchema);
-const HealthChange = mongoose.model<IHealthChange>(
+export const HealthChange = mongoose.model<IHealthChange>(
   "HealthChange",
   HealthChangeSchema,
 );

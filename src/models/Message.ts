@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-interface IMessage extends mongoose.Document {
+export interface IMessage extends mongoose.Document {
   userId: string;
   userName: string;
   eventDate: Date;
@@ -31,5 +31,5 @@ const MessageSchema = new Schema(
   },
 );
 
-const Message = mongoose.model<IMessage>("Message", MessageSchema);
+export const Message = mongoose.model<IMessage>("Message", MessageSchema);
 export default Message;

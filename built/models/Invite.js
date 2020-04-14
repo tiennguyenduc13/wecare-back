@@ -36,6 +36,6 @@ const InviteSchema = new Schema({
 }, {
     collection: "invite",
 });
-const Invite = mongoose_1.default.model("Invite", InviteSchema);
-exports.default = Invite;
+exports.Invite = mongoose_1.default.model("Invite", InviteSchema);
+exports.default = exports.Invite;
 //# sourceMappingURL=Invite.js.map

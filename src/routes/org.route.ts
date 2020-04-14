@@ -1,5 +1,6 @@
 import express from "express";
 import _ from "lodash";
+import HealthChange from "../models/HealthChange";
 import Org from "../models/Org";
 import Profile from "../models/Profile";
 import addMemberToOrg from "./org.function";
@@ -102,7 +103,7 @@ orgRoutes.route("/listExceptMember/:memberId").get((req, res) => {
   });
 });
 
-orgRoutes.route("/members/:orgId/:memberId").get((req, res) => {
+orgRoutes.route("/members/:orgId/:memberId").get(async (req, res) => {
   const orgId = req.params.orgId;
   const memberId = req.params.memberId;
   const filter = {
@@ -110,37 +111,72 @@ orgRoutes.route("/members/:orgId/:memberId").get((req, res) => {
     members: memberId,
   };
   console.log("Get list members filter: ", filter);
-  Org.findOne(filter, async (err, org) => {
+  const org = await Org.findOne(filter, (err, org) => {
     if (err) {
       console.log(err);
-      res.json({});
     } else {
       console.log("Found org", org);
-      try {
-        const profilesPromises = _.map(org.members, (memberId) => {
-          return Profile.findOne({ userId: memberId }, (err, profile) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log("Found profile", profile);
-              return profile;
-            }
-          });
-        });
-        Promise.all(profilesPromises)
-          .then((profiles) => {
-            console.log("Found profiles", profiles);
-            res.json(profiles);
-          })
-          .catch((err) => {
-            console.log("Error getting members promises ", err);
-            res.json({});
-          });
-      } catch (err) {
-        console.log("Error getting members ", err);
-      }
+      return org;
     }
   });
+  console.log("ttt111 org", org);
+  const profilesPromises = await _.map(
+    org.members,
+    async (memberId: string) => {
+      return await Profile.findOne(
+        {
+          userId: memberId,
+        },
+        (err, profile) => {
+          if (err) {
+            console.log(err);
+            return {};
+          } else {
+            console.log("Found profile", profile);
+            return profile;
+          }
+        },
+      );
+    },
+  );
+  console.log("ttt11122 profiles", profilesPromises);
+  const profiles = await Promise.all(profilesPromises);
+  console.log("ttt11122333 profiles", profiles);
+  const cloneObjs = [];
+  const promises = await _.map(profiles, async (profile) => {
+    const healthChanges = await HealthChange.find({
+      userId: profile.userId,
+    })
+      .sort({
+        eventDate: -1,
+      })
+      .limit(1);
+    const healthSignals =
+      healthChanges && healthChanges.length
+        ? healthChanges[0].healthSignals
+        : [];
+
+    console.log("ttt444 healthSignals--------", healthSignals);
+
+    const cloneObj = {
+      userId: profile.userId,
+      name: profile.name,
+      email: profile.email,
+      healthSignals,
+    };
+    console.log("ttt444555 cloneObj--------", cloneObj);
+    cloneObjs.push(cloneObj);
+    return cloneObj;
+  });
+  console.log("ttt666 promises--------", promises);
+  const members = await Promise.all(promises);
+  console.log("ttt666777 members--------", members);
+  res.json(members);
+
+  //   Promise.all(promises).then((members) => {
+  //     console.log("ttt666777 members--------", members);
+  //     res.json(members);
+  //   });
 });
 
 orgRoutes.route("/deleteByCreatorId/:orgId/:creatorId").post((req, res) => {

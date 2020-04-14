@@ -1,12 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Org_1 = __importDefault(require("../models/Org"));
+const Org_1 = require("../models/Org");
 function addMemberToOrg(req, res, memberId, orgId) {
     console.log("start addMemberToOrg: ", memberId, orgId);
-    Org_1.default.findById(orgId, (err, org) => {
+    Org_1.Org.findById(orgId, (err, org) => {
         if (err) {
             console.log("Error ", err);
             res.status(404).send("Unable to addMember");

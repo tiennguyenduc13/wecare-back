@@ -22,6 +22,6 @@ const PositionMapSchema = new Schema({
 }, {
     collection: "position-map",
 });
-const PositionMap = mongoose_1.default.model("PositionMap", PositionMapSchema);
-exports.default = PositionMap;
+exports.PositionMap = mongoose_1.default.model("PositionMap", PositionMapSchema);
+exports.default = exports.PositionMap;
 //# sourceMappingURL=PositionMap.js.map

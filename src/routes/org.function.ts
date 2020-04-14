@@ -1,8 +1,13 @@
-import Org from "../models/Org";
+import { IOrg, Org } from "../models/Org";
 
-export default function addMemberToOrg(req, res, memberId, orgId) {
+export default function addMemberToOrg(
+  req,
+  res,
+  memberId: string,
+  orgId: string,
+) {
   console.log("start addMemberToOrg: ", memberId, orgId);
-  Org.findById(orgId, (err, org) => {
+  Org.findById(orgId, (err, org: IOrg) => {
     if (err) {
       console.log("Error ", err);
       res.status(404).send("Unable to addMember");
@@ -15,7 +20,7 @@ export default function addMemberToOrg(req, res, memberId, orgId) {
           org.members.push(memberId);
           org
             .save()
-            .then((org) => {
+            .then((org: IOrg) => {
               console.log("addMemberToOrg done", org);
               res.json(org);
             })

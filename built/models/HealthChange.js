@@ -18,7 +18,6 @@ const HealthChangeSchema = new Schema({
 }, {
     collection: "health-change",
 });
-// const Business = mongoose.model<IBusiness>("Business", BusinessSchema);
-const HealthChange = mongoose_1.default.model("HealthChange", HealthChangeSchema);
-exports.default = HealthChange;
+exports.HealthChange = mongoose_1.default.model("HealthChange", HealthChangeSchema);
+exports.default = exports.HealthChange;
 //# sourceMappingURL=HealthChange.js.map

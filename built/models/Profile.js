@@ -32,6 +32,6 @@ const ProfileSchema = new Schema({
 }, {
     collection: "profile",
 });
-const Profile = mongoose_1.default.model("Profile", ProfileSchema);
-exports.default = Profile;
+exports.Profile = mongoose_1.default.model("Profile", ProfileSchema);
+exports.default = exports.Profile;
 //# sourceMappingURL=Profile.js.map

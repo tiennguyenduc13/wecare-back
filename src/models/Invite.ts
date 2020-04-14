@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-interface IInvite extends mongoose.Document {
+export interface IInvite extends mongoose.Document {
   inviterId: string;
   inviterEmail: string;
   inviteDate: Date;
@@ -47,5 +47,5 @@ const InviteSchema = new Schema(
   },
 );
 
-const Invite = mongoose.model<IInvite>("Invite", InviteSchema);
+export const Invite = mongoose.model<IInvite>("Invite", InviteSchema);
 export default Invite;

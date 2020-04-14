@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-interface IProfile extends mongoose.Document {
+export interface IProfile extends mongoose.Document {
   userId: string;
   name: string;
   eventDate: Date;
@@ -41,5 +41,5 @@ const ProfileSchema = new Schema(
   },
 );
 
-const Profile = mongoose.model<IProfile>("Profile", ProfileSchema);
+export const Profile = mongoose.model<IProfile>("Profile", ProfileSchema);
 export default Profile;

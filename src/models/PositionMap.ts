@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-interface IPositionMap extends mongoose.Document {
+export interface IPositionMap extends mongoose.Document {
   userId: string;
   eventDate: Date;
   healthSignals: string[];
@@ -31,7 +31,7 @@ const PositionMapSchema = new Schema(
   },
 );
 
-const PositionMap = mongoose.model<IPositionMap>(
+export const PositionMap = mongoose.model<IPositionMap>(
   "PositionMap",
   PositionMapSchema,
 );

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
-interface IBusiness extends mongoose.Document {
+export interface IBusiness extends mongoose.Document {
   name: string;
   number: number;
 }
@@ -20,5 +20,5 @@ const BusinessSchema = new Schema(
   },
 );
 
-const Business = mongoose.model<IBusiness>("Business", BusinessSchema);
+export const Business = mongoose.model<IBusiness>("Business", BusinessSchema);
 export default Business;

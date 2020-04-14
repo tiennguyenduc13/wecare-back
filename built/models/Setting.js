@@ -25,6 +25,6 @@ const SettingSchema = new Schema({
 }, {
     collection: "setting",
 });
-const Setting = mongoose_1.default.model("Setting", SettingSchema);
-exports.default = Setting;
+exports.Setting = mongoose_1.default.model("Setting", SettingSchema);
+exports.default = exports.Setting;
 //# sourceMappingURL=Setting.js.map
