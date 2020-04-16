@@ -11,6 +11,8 @@ import orgRoute from "./routes/org.route";
 import positionMapRoute from "./routes/position-map.route";
 import profileRoute from "./routes/profile.route";
 import settingRoute from "./routes/setting.route";
+import schedule from "node-schedule";
+import updateLocalAddress from "./routes/position.function";
 
 mongoose.Promise = global.Promise;
 mongoose
@@ -21,8 +23,14 @@ mongoose
     },
     (err) => {
       console.log("Can not connect to the database" + err);
-    },
+    }
   );
+
+//run update localPosition
+const job = schedule.scheduleJob("/10 * * * * *", function () {
+  console.log("Calling updateLocalAddress");
+  updateLocalAddress();
+});
 
 const app = express();
 const port = process.env.PORT || 4500;
@@ -39,5 +47,5 @@ app.use("/message", messageRoute);
 app.use("/invite", inviteRoute);
 
 app.listen(port, () => {
-  return console.log(`server is listening on ${port}`);
+  return console.log(`Server is listening on ${port}`);
 });

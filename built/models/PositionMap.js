@@ -16,8 +16,30 @@ const PositionMapSchema = new Schema({
         type: [String],
     },
     position: {
-        lat: Number,
-        lng: Number,
+        lat: {
+            type: Number,
+        },
+        lng: {
+            type: Number,
+        },
+    },
+    localAddress: {
+        city: {
+            type: String,
+            default: "",
+        },
+        county: {
+            type: String,
+            default: "",
+        },
+        state: {
+            type: String,
+            default: "",
+        },
+        country: {
+            type: String,
+            default: "",
+        },
     },
 }, {
     collection: "position-map",

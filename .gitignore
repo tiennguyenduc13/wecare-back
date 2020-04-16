@@ -1,13 +1,21 @@
-# Node build artifacts
-built
-node_modules
-npm-debug.log
+# Specifies intentionally untracked files to ignore when using Git
+# http://git-scm.com/docs/gitignore
+package-lock.json
+functions/package-lock.json
 
-# Local development
-*.env
-*.dev
+.idea/
+.sourcemaps/
+.sass-cache/
+.tmp/
+.versions/
+coverage/
+node_modules/
+tmp/
+temp/
+platforms/
+plugins/
+plugins/android.json
+plugins/ios.json
+
 .DS_Store
-
-# Docker
-Dockerfile
-docker-compose.yml
+Thumbs.db

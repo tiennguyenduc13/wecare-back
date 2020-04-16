@@ -16,6 +16,8 @@ const org_route_1 = __importDefault(require("./routes/org.route"));
 const position_map_route_1 = __importDefault(require("./routes/position-map.route"));
 const profile_route_1 = __importDefault(require("./routes/profile.route"));
 const setting_route_1 = __importDefault(require("./routes/setting.route"));
+const node_schedule_1 = __importDefault(require("node-schedule"));
+const position_function_1 = __importDefault(require("./routes/position.function"));
 mongoose_1.default.Promise = global.Promise;
 mongoose_1.default
     .connect(db_1.default.DB, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -23,6 +25,11 @@ mongoose_1.default
     console.log("Database is connected");
 }, (err) => {
     console.log("Can not connect to the database" + err);
+});
+//run update localPosition
+const job = node_schedule_1.default.scheduleJob("/10 * * * * *", function () {
+    console.log("Calling updateLocalAddress");
+    position_function_1.default();
 });
 const app = express_1.default();
 const port = process.env.PORT || 4500;
@@ -37,6 +44,6 @@ app.use("/org", org_route_1.default);
 app.use("/message", message_route_1.default);
 app.use("/invite", invite_route_1.default);
 app.listen(port, () => {
-    return console.log(`server is listening on ${port}`);
+    return console.log(`Server is listening on ${port}`);
 });
 //# sourceMappingURL=server.js.map

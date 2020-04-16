@@ -21,6 +21,12 @@ positionMapRoutes.route("/updatePosition/:userId").post((req, res) => {
   PositionMap.findOne({ userId }).then((positionMap) => {
     if (positionMap) {
       positionMap.position = position;
+      positionMap.localAddress = {
+        city: "",
+        county: "",
+        state: "",
+        country: "",
+      };
       positionMap.eventDate = _.isEmpty(positionMap.eventDate)
         ? new Date()
         : positionMap.eventDate;

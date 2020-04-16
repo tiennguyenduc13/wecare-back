@@ -177,10 +177,6 @@ orgRoutes.route("/members/:orgId/:memberId").get((req, res) => __awaiter(void 0,
     const members = yield Promise.all(promises);
     console.log("ttt666777 members--------", members);
     res.json(members);
-    //   Promise.all(promises).then((members) => {
-    //     console.log("ttt666777 members--------", members);
-    //     res.json(members);
-    //   });
 }));
 orgRoutes.route("/deleteByCreatorId/:orgId/:creatorId").post((req, res) => {
     const orgId = req.params.orgId;
