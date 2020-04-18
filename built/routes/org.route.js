@@ -132,7 +132,6 @@ orgRoutes.route("/members/:orgId/:memberId").get((req, res) => __awaiter(void 0,
             return org;
         }
     });
-    console.log("ttt111 org", org);
     const profilesPromises = yield lodash_1.default.map(org.members, (memberId) => __awaiter(void 0, void 0, void 0, function* () {
         return yield Profile_1.default.findOne({
             userId: memberId,
@@ -147,9 +146,7 @@ orgRoutes.route("/members/:orgId/:memberId").get((req, res) => __awaiter(void 0,
             }
         });
     }));
-    console.log("ttt11122 profiles", profilesPromises);
     const profiles = yield Promise.all(profilesPromises);
-    console.log("ttt11122333 profiles", profiles);
     const cloneObjs = [];
     const promises = yield lodash_1.default.map(profiles, (profile) => __awaiter(void 0, void 0, void 0, function* () {
         const healthChanges = yield HealthChange_1.default.find({
@@ -162,20 +159,16 @@ orgRoutes.route("/members/:orgId/:memberId").get((req, res) => __awaiter(void 0,
         const healthSignals = healthChanges && healthChanges.length
             ? healthChanges[0].healthSignals
             : [];
-        console.log("ttt444 healthSignals--------", healthSignals);
         const cloneObj = {
             userId: profile.userId,
             name: profile.name,
             email: profile.email,
             healthSignals,
         };
-        console.log("ttt444555 cloneObj--------", cloneObj);
         cloneObjs.push(cloneObj);
         return cloneObj;
     }));
-    console.log("ttt666 promises--------", promises);
     const members = yield Promise.all(promises);
-    console.log("ttt666777 members--------", members);
     res.json(members);
 }));
 orgRoutes.route("/deleteByCreatorId/:orgId/:creatorId").post((req, res) => {

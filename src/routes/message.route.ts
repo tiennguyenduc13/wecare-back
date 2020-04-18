@@ -1,11 +1,15 @@
 import express from "express";
 import _ from "lodash";
 import Message from "../models/Message";
+import * as util from "../common/util";
 
 const messageRoutes = express.Router();
 
 messageRoutes.route("/add").post((req, res) => {
   const message = new Message(req.body);
+  message.eventDate = util.isNullDate(message.eventDate)
+    ? new Date()
+    : message.eventDate;
   console.log("Adding message", message);
   message
     .save()

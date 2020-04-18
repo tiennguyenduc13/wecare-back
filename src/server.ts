@@ -27,7 +27,7 @@ mongoose
   );
 
 //run update localPosition
-const job = schedule.scheduleJob("/10 * * * * *", function () {
+const job = schedule.scheduleJob("/60 * * * * *", function () {
   console.log("Calling updateLocalAddress");
   updateLocalAddress();
 });

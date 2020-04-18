@@ -119,7 +119,6 @@ orgRoutes.route("/members/:orgId/:memberId").get(async (req, res) => {
       return org;
     }
   });
-  console.log("ttt111 org", org);
   const profilesPromises = await _.map(
     org.members,
     async (memberId: string) => {
@@ -135,13 +134,11 @@ orgRoutes.route("/members/:orgId/:memberId").get(async (req, res) => {
             console.log("Found profile", profile);
             return profile;
           }
-        },
+        }
       );
-    },
+    }
   );
-  console.log("ttt11122 profiles", profilesPromises);
   const profiles = await Promise.all(profilesPromises);
-  console.log("ttt11122333 profiles", profiles);
   const cloneObjs = [];
   const promises = await _.map(profiles, async (profile) => {
     const healthChanges = await HealthChange.find({
@@ -156,21 +153,16 @@ orgRoutes.route("/members/:orgId/:memberId").get(async (req, res) => {
         ? healthChanges[0].healthSignals
         : [];
 
-    console.log("ttt444 healthSignals--------", healthSignals);
-
     const cloneObj = {
       userId: profile.userId,
       name: profile.name,
       email: profile.email,
       healthSignals,
     };
-    console.log("ttt444555 cloneObj--------", cloneObj);
     cloneObjs.push(cloneObj);
     return cloneObj;
   });
-  console.log("ttt666 promises--------", promises);
   const members = await Promise.all(promises);
-  console.log("ttt666777 members--------", members);
   res.json(members);
 });
 

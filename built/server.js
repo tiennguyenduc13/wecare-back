@@ -27,7 +27,7 @@ mongoose_1.default
     console.log("Can not connect to the database" + err);
 });
 //run update localPosition
-const job = node_schedule_1.default.scheduleJob("/10 * * * * *", function () {
+const job = node_schedule_1.default.scheduleJob("/60 * * * * *", function () {
     console.log("Calling updateLocalAddress");
     position_function_1.default();
 });

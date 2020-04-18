@@ -1,10 +1,9 @@
 import express from "express";
 import _ from "lodash";
-import PositionMap from "../models/PositionMap";
+import PositionMap, { IPositionMap } from "../models/PositionMap";
 
 const positionMapRoutes = express.Router();
 
-// Defined get data(index or listing) route
 positionMapRoutes.route("/").get((req, res) => {
   PositionMap.find((err, positionMapes) => {
     if (err) {
@@ -67,6 +66,45 @@ positionMapRoutes.route("/list").get((req, res) => {
     }
   });
 });
+positionMapRoutes
+  .route("/countByLocalAddress/:userId/:healthSignal")
+  .get(async (req, res) => {
+    const userId = req.params.userId;
+    const healthSignal = req.params.healthSignal;
+    console.log("countByLocalAddress", userId, healthSignal);
+    const positionMap: IPositionMap = await PositionMap.findOne({ userId });
+
+    const filterCity = {
+      healthSignals: healthSignal,
+      "localAddress.city": positionMap.localAddress.city,
+    };
+    const filterCounty = {
+      healthSignals: healthSignal,
+      "localAddress.city": positionMap.localAddress.city,
+    };
+    const filterState = {
+      healthSignals: healthSignal,
+      "localAddress.city": positionMap.localAddress.city,
+    };
+    const cityCount = await PositionMap.find(filterCity).countDocuments();
+    const countyCount = await PositionMap.find(filterCounty).countDocuments();
+    const stateCount = await PositionMap.find(filterState).countDocuments();
+    const resData = {
+      city: {
+        name: positionMap.localAddress.city,
+        count: cityCount,
+      },
+      county: {
+        name: positionMap.localAddress.county,
+        count: countyCount,
+      },
+      state: {
+        name: positionMap.localAddress.state,
+        count: stateCount,
+      },
+    };
+    res.status(200).json(resData);
+  });
 positionMapRoutes.route("/updateHealthSignals/:userId").post((req, res) => {
   const userId = req.params.userId;
   const healthSignals = req.body;
