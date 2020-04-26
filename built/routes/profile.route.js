@@ -2,10 +2,17 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const lodash_1 = __importDefault(require("lodash"));
 const Profile_1 = __importDefault(require("../models/Profile"));
+const util = __importStar(require("../common/util"));
 const profileRoutes = express_1.default.Router();
 profileRoutes.route("/updateProfile/:userId").post((req, res) => {
     const userId = req.params.userId;
@@ -23,7 +30,7 @@ profileRoutes.route("/updateProfile/:userId").post((req, res) => {
         if (profile) {
             profile.email = profileParam.email;
             profile.name = profileParam.name;
-            profile.eventDate = lodash_1.default.isEmpty(profile.eventDate)
+            profile.eventDate = util.isNullDate(profile.eventDate)
                 ? new Date()
                 : profile.eventDate;
             profile.cellPhone = profileParam.cellPhone;

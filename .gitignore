@@ -3,6 +3,8 @@
 package-lock.json
 functions/package-lock.json
 
+.env
+.gitignore
 .idea/
 .sourcemaps/
 .sass-cache/
@@ -10,6 +12,8 @@ functions/package-lock.json
 .versions/
 coverage/
 node_modules/
+built/
+built/routes/*.*
 tmp/
 temp/
 platforms/

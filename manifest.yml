@@ -1,0 +1,7 @@
+---
+applications:
+  - name: wecare-back-2020
+    buildpack: nodejs_buildpack
+    memory: 256m
+    disk_quota: 512MB
+    instances: 1

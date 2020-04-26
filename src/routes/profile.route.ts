@@ -1,6 +1,7 @@
 import express from "express";
 import _ from "lodash";
 import Profile from "../models/Profile";
+import * as util from "../common/util";
 
 const profileRoutes = express.Router();
 
@@ -20,7 +21,7 @@ profileRoutes.route("/updateProfile/:userId").post((req, res) => {
     if (profile) {
       profile.email = profileParam.email;
       profile.name = profileParam.name;
-      profile.eventDate = _.isEmpty(profile.eventDate)
+      profile.eventDate = util.isNullDate(profile.eventDate)
         ? new Date()
         : profile.eventDate;
       profile.cellPhone = profileParam.cellPhone;

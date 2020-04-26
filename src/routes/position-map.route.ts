@@ -1,6 +1,7 @@
 import express from "express";
 import _ from "lodash";
 import PositionMap, { IPositionMap } from "../models/PositionMap";
+import * as util from "../common/util";
 
 const positionMapRoutes = express.Router();
 
@@ -26,7 +27,7 @@ positionMapRoutes.route("/updatePosition/:userId").post((req, res) => {
         state: "",
         country: "",
       };
-      positionMap.eventDate = _.isEmpty(positionMap.eventDate)
+      positionMap.eventDate = util.isNullDate(positionMap.eventDate)
         ? new Date()
         : positionMap.eventDate;
       // update

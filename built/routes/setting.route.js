@@ -2,10 +2,17 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const lodash_1 = __importDefault(require("lodash"));
 const Setting_1 = __importDefault(require("../models/Setting"));
+const util = __importStar(require("../common/util"));
 const settingRoutes = express_1.default.Router();
 settingRoutes.route("/updateSetting/:userId").post((req, res) => {
     const userId = req.params.userId;
@@ -18,7 +25,7 @@ settingRoutes.route("/updateSetting/:userId").post((req, res) => {
         console.log("updateSetting found ", setting);
         if (setting) {
             setting.alertDistance = settingParam.alertDistance;
-            settingParam.eventDate = lodash_1.default.isEmpty(settingParam.eventDate)
+            settingParam.eventDate = util.isNullDate(settingParam.eventDate)
                 ? new Date()
                 : settingParam.eventDate;
             console.log("updateSetting save setting ", setting);

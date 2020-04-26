@@ -4,6 +4,7 @@ import HealthChange from "../models/HealthChange";
 import Org from "../models/Org";
 import Profile from "../models/Profile";
 import addMemberToOrg from "./org.function";
+import * as util from "../common/util";
 
 const orgRoutes = express.Router();
 
@@ -11,7 +12,7 @@ orgRoutes.route("/add").post((req, res) => {
   const org = new Org(req.body);
   const creatorId = org.creatorId;
   if (!_.isEmpty(creatorId)) {
-    org.eventDate = _.isEmpty(org.eventDate) ? new Date() : org.eventDate;
+    org.eventDate = util.isNullDate(org.eventDate) ? new Date() : org.eventDate;
     org.members.push(creatorId);
     console.log("Adding org ", req.body);
     org

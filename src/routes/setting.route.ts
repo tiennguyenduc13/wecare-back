@@ -1,6 +1,7 @@
 import express from "express";
 import _ from "lodash";
 import Setting from "../models/Setting";
+import * as util from "../common/util";
 
 const settingRoutes = express.Router();
 
@@ -15,7 +16,7 @@ settingRoutes.route("/updateSetting/:userId").post((req, res) => {
     console.log("updateSetting found ", setting);
     if (setting) {
       setting.alertDistance = settingParam.alertDistance;
-      settingParam.eventDate = _.isEmpty(settingParam.eventDate)
+      settingParam.eventDate = util.isNullDate(settingParam.eventDate)
         ? new Date()
         : settingParam.eventDate;
       console.log("updateSetting save setting ", setting);

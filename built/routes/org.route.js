@@ -11,6 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const lodash_1 = __importDefault(require("lodash"));
@@ -18,12 +25,13 @@ const HealthChange_1 = __importDefault(require("../models/HealthChange"));
 const Org_1 = __importDefault(require("../models/Org"));
 const Profile_1 = __importDefault(require("../models/Profile"));
 const org_function_1 = __importDefault(require("./org.function"));
+const util = __importStar(require("../common/util"));
 const orgRoutes = express_1.default.Router();
 orgRoutes.route("/add").post((req, res) => {
     const org = new Org_1.default(req.body);
     const creatorId = org.creatorId;
     if (!lodash_1.default.isEmpty(creatorId)) {
-        org.eventDate = lodash_1.default.isEmpty(org.eventDate) ? new Date() : org.eventDate;
+        org.eventDate = util.isNullDate(org.eventDate) ? new Date() : org.eventDate;
         org.members.push(creatorId);
         console.log("Adding org ", req.body);
         org

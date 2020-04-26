@@ -11,10 +11,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const lodash_1 = __importDefault(require("lodash"));
 const PositionMap_1 = __importDefault(require("../models/PositionMap"));
+const util = __importStar(require("../common/util"));
 const positionMapRoutes = express_1.default.Router();
 positionMapRoutes.route("/").get((req, res) => {
     PositionMap_1.default.find((err, positionMapes) => {
@@ -38,7 +45,7 @@ positionMapRoutes.route("/updatePosition/:userId").post((req, res) => {
                 state: "",
                 country: "",
             };
-            positionMap.eventDate = lodash_1.default.isEmpty(positionMap.eventDate)
+            positionMap.eventDate = util.isNullDate(positionMap.eventDate)
                 ? new Date()
                 : positionMap.eventDate;
             // update
